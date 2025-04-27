@@ -88,7 +88,7 @@ document.querySelectorAll('.js-add-to-cart')
            addedMessage.classList.add("cart-visible");
            addedMessage.timerId   = setTimeout(() =>{
             addedMessage.classList.remove('cart-visible');
-            addedMessage.timerID = null;
+            addedMessage.timerId = null;
            },2000);
        });
    });
