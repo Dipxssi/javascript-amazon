@@ -1,5 +1,6 @@
 //.map() ----> loops through an array for each value it runs a function
 //creates a new array and the returned value goes here
+//inheritance = lets us reuse code between classes
 
 import {formatCurrency} from '../scripts/utils/money.js'
 export function getProduct(productId){
@@ -12,8 +13,6 @@ export function getProduct(productId){
  return matchingProduct;
 }
  
- 
-
 class Product {
   id;
   image;
@@ -35,24 +34,31 @@ getStarsUrl(){
 getPrice(){
    return `$${formatCurrency(this.priceCents)}`;
 }
+extraInfoHTML (){
+  return ' ';
+}
 
 }
 
-const product1 = new Product({
-  id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-  name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
-  rating: {
-    stars: 4.5,
-    count: 87
-  },
-  priceCents: 1090,
-  keywords: [
-    "socks",
-    "sports",
-    "apparel"
-  ]
-});
+class Clothing extends Product {
+   sizeChartLink;
+
+   constructor(productDetails){
+       super(productDetails);//calss constructor of parent class
+       this.sizeChartLink = productDetails.sizeChartLink;
+   }
+//Method Overriding
+   extraInfoHTML (){ //target tells to open in new tab
+      return `
+        <a href="${this.sizeChartLink}" target = "_blank">Size chart</a>
+      `;
+   }
+}
+/*
+const date = new Date();
+console.log(date);
+console.log(date.toLocaleDateString());
+*/
 
  export const products = [
   {
@@ -714,5 +720,8 @@ const product1 = new Product({
     ]
   }
 ].map((productDetails) =>{
+   if (productDetails.type === 'clothing'){
+    return new Clothing(productDetails);
+   }
    return  new Product(productDetails);
 });
