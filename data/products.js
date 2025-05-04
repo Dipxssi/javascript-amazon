@@ -59,7 +59,31 @@ const date = new Date();
 console.log(date);
 console.log(date.toLocaleDateString());
 */
+
+//fetch helps us to make a request to backend but uses promise, by default makes a GET request
 export let products = [];
+
+
+export function loadProductsFetch(){
+ const promise = fetch(
+  'https://supersimplebackend.dev/products'
+).then((response) =>{ //parameter stores the response from backend
+   return  response.json(); //gives the data attached to the response     
+  }).then((productsData) =>{
+    products = productsData.map((productDetails) =>{
+      if (productDetails.type === 'clothing'){
+       return new Clothing(productDetails);
+      }
+      return  new Product(productDetails);
+   }); //to convert json into obj
+   console.log('load products');
+  });
+  return promise;
+}
+/*
+loadProductsFetch().then(() => {
+  console.log('next step');
+});*/
 
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
