@@ -7,13 +7,23 @@ import { loadCart } from "../data/cart.js";
 // async = makes a function return a promise
 //async lets us use await , await let's us wait for a promise to finish , before to the next line
 async function loadPage() {
+    
+  try{
+    //throw 'error1';
+
     await loadProductsFetch(); //await let's us write asynchronous code like a normal code, we can only use await , when we're inside an async func
 
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
+      //throw 'error2';
       loadCart(() => {
-        resolve();
+       // reject('error3')
+      resolve('value3');
       });
-    })
+    });
+  } catch (error) {
+     console.log('Unexpected error . Please try again later.');
+  }
+    
     renderOrderSummary();
     renderPaymentSummary();
 }
