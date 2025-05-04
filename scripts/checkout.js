@@ -3,6 +3,23 @@ import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { loadProducts , loadProductsFetch} from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 
+//Async await is a shortcut for promises
+// async = makes a function return a promise
+//async lets us use await , await let's us wait for a promise to finish , before to the next line
+async function loadPage() {
+    await loadProductsFetch(); //await let's us write asynchronous code like a normal code, we can only use await , when we're inside an async func
+
+    await new Promise((resolve) => {
+      loadCart(() => {
+        resolve();
+      });
+    })
+    renderOrderSummary();
+    renderPaymentSummary();
+}
+loadPage();
+
+/*
 Promise.all([
  loadProductsFetch(),
 new Promise((resolve) => {
